@@ -3,20 +3,42 @@ let form = document.querySelector('#additem')
 let list = document.querySelector('ul');
 let input = document.getElementById('addlist');
 
-
+let boxArray = localStorage.getItem('box') ?
+JSON.parse(localStorage.getItem('box')) : [];
 
 let itemsArray = localStorage.getItem('items') ?
 JSON.parse(localStorage.getItem('items')) : [];
 
+
+
 itemsArray.forEach(addTask);
 function addTask(text){
+    
     let newItem = document.createElement('li');
     let newCheck = document.createElement('input');
      newCheck.setAttribute("type", "checkbox");
+     newCheck.setAttribute("id", "box");
      newItem.innerText = text;
      newItem.appendChild(newCheck)
-      list.appendChild(newItem);
+    list.appendChild(newItem);
+    
 }
+
+const constarray = itemsArray.length;
+document.querySelectorAll('box');
+
+for (i=0 ; i < constarray ; i++){
+
+    if (boxArray[i] === true){
+
+        document.querySelectorAll('#box')[i].checked = true;
+        document.querySelectorAll('#box')[i].parentElement.setAttribute("class", "checked");
+
+    }
+
+}
+
+
 
 function removeItemOnce(arr, value) {
     var index = arr.indexOf(value);
@@ -75,10 +97,23 @@ list.addEventListener('dblclick', function(ev) {
 
 list.addEventListener('click', function(ev) {
 
+
     if(ev.target.tagName ==='INPUT'){
     
         ev.target.parentElement.classList.toggle('checked');
-    
+        console.log(ev.target.checked)
+
+        let lengthofchecks = document.querySelectorAll("#box").length
+        boxArray = [];
+        ;
+        
+            for(i=0; i < lengthofchecks; i++){
+        
+            boxArray.push(document.querySelectorAll("#box")[i].checked);
+            localStorage.setItem('box', JSON.stringify(boxArray)); 
+            }
+
+    console.log (boxArray)
     }
        
       }
@@ -100,6 +135,7 @@ form.addEventListener('click', function(e){
     let allitems = document.querySelectorAll('li')
     e.preventDefault();
     newCheck.setAttribute("type", "checkbox");
+    newCheck.setAttribute("id", "box");
     newItem.innerText = input.value;
     newItem.appendChild(newCheck)
     list.appendChild(newItem);
