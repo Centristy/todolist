@@ -18,6 +18,26 @@ function addTask(text){
       list.appendChild(newItem);
 }
 
+function removeItemOnce(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
+  }
+  
+  function removeItemAll(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr;
+  }
+
 
 
 
@@ -25,6 +45,12 @@ list.addEventListener('dblclick', function(ev) {
 
 if(ev.target.tagName ==='INPUT'){
 
+    console.log(ev.target.parentElement.innerText);
+    console.log(itemsArray)
+    removeItemOnce(itemsArray, ev.target.parentElement.innerText)
+    console.log(itemsArray)
+
+    localStorage.setItem('items', JSON.stringify(itemsArray));
     ev.target.parentElement.remove();
 }
    
@@ -34,8 +60,14 @@ if(ev.target.tagName ==='INPUT'){
 list.addEventListener('dblclick', function(ev) {
 
     if(ev.target.tagName ==='LI'){
-    
+
+        console.log(ev.target.innerText);
+        console.log(itemsArray)
+        removeItemOnce(itemsArray, ev.target.innerText)
+        console.log(itemsArray)
+        localStorage.setItem('items', JSON.stringify(itemsArray));
         ev.target.remove();
+     
     }
        
       }
@@ -46,6 +78,7 @@ list.addEventListener('click', function(ev) {
     if(ev.target.tagName ==='INPUT'){
     
         ev.target.parentElement.classList.toggle('checked');
+    
     }
        
       }
